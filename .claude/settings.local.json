@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npm run *)",
+      "PowerShell(Start-Process \"http://localhost:5175\")"
+    ]
+  }
+}
