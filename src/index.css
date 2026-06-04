@@ -4129,4 +4129,50 @@ a {
     font-size: 8vw;
     letter-spacing: -0.2vw;
   }
+
+  .service-label {
+    font-size: 11px !important;
+    max-width: 95px !important;
+    width: auto !important;
+  }
+
+  .hub-container {
+    width: 95px !important;
+    height: 95px !important;
+  }
+
+  .hub-logo {
+    width: 55px !important;
+  }
+
+  .circle-content {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  .circle-icon svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hub-container {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  .hub-logo {
+    width: 45px !important;
+  }
+
+  .circle-content {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .circle-icon svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
 }

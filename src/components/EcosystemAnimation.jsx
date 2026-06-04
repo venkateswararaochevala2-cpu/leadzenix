@@ -2,54 +2,99 @@ import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, MessageSquare, Database, Settings, Globe } from 'lucide-react';
 
+const WhatsAppIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M12.031 2C6.479 2 2 6.479 2 12.03 c0 1.907.531 3.676 1.447 5.197L2 22l4.927-1.385c1.472.84 3.167 1.325 4.974 1.325 5.552 0 10.03-4.479 10.03-10.03S17.583 2 12.03 2zm5.728 14.154c-.227.639-1.285 1.189-1.782 1.272-.455.076-.983.136-2.734-.58-2.24-.916-3.623-3.189-3.737-3.342-.113-.153-.925-1.231-.925-2.35 0-1.12.583-1.667.792-1.895.208-.228.455-.285.607-.285.152 0 .304.004.436.011.136.008.318-.053.497.383.182.443.626 1.528.68 1.64.053.114.09.246.011.4-.078.155-.152.249-.24.351-.087.1-.186.223-.265.3-.087.087-.182.182-.079.359.102.178.455.753.974 1.214.67.595 1.231.78 1.408.867.178.087.281.072.383-.045.102-.118.455-.53.58-.712.125-.182.25-.152.417-.091.171.061 1.076.508 1.262.603.186.095.311.14.356.22.045.076.045.439-.182 1.078z"/>
+  </svg>
+);
+
 function EcosystemAnimation() {
   const [mounted, setMounted] = useState(false);
   const [containerWidth, setContainerWidth] = useState(500);
+  const [isLargeDevice, setIsLargeDevice] = useState(true);
   const containerRef = useRef(null);
 
   useEffect(() => {
     setMounted(true);
-    if (!containerRef.current) return;
-    const observer = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        setContainerWidth(entry.contentRect.width || 500);
+    if (typeof window !== 'undefined') {
+      setIsLargeDevice(window.innerWidth > 991);
+      const handleResize = () => {
+        setIsLargeDevice(window.innerWidth > 991);
+      };
+      window.addEventListener('resize', handleResize);
+      
+      if (containerRef.current) {
+        const observer = new ResizeObserver((entries) => {
+          for (let entry of entries) {
+            setContainerWidth(entry.contentRect.width || 500);
+          }
+        });
+        observer.observe(containerRef.current);
+        return () => {
+          window.removeEventListener('resize', handleResize);
+          observer.disconnect();
+        };
       }
-    });
-    observer.observe(containerRef.current);
-    return () => observer.disconnect();
+      return () => window.removeEventListener('resize', handleResize);
+    }
   }, []);
 
-  const services = [
-    { id: 'voice', name: 'AI Voice Agents', icon: Phone, angle: -90 },
-    { id: 'websites', name: 'Business Websites', icon: Globe, angle: -18 },
-    { id: 'automation', name: 'Automation Workflows', icon: Settings, angle: 54 },
-    { id: 'crm', name: 'CRM Integration', icon: Database, angle: 126 },
-    { id: 'whatsapp', name: 'WhatsApp Chatbots', icon: MessageSquare, angle: 198 }
-  ];
+  const services = isLargeDevice 
+    ? [
+        { id: 'voice', name: 'AI Voice Agents', icon: Phone, angle: -90, labelPos: 'bottom' },
+        { id: 'websites', name: 'Business Websites', icon: Globe, angle: -18, labelPos: 'bottom' },
+        { id: 'automation', name: 'Automation Workflows', icon: Settings, angle: 54, labelPos: 'bottom' },
+        { id: 'crm', name: 'CRM Integration', icon: Database, angle: 126, labelPos: 'bottom' },
+        { id: 'whatsapp', name: 'WhatsApp Chatbots', icon: MessageSquare, angle: 198, labelPos: 'bottom' }
+      ]
+    : [
+        { id: 'voice', name: 'AI\nVoice\nAgents', icon: Phone, angle: -90, labelPos: 'top' },
+        { id: 'websites', name: 'Business\nWebsites', icon: Globe, angle: -30, labelPos: 'right' },
+        { id: 'automation', name: 'Automation\nWorkflows', icon: Settings, angle: 30, labelPos: 'bottom' },
+        { id: 'crm', name: 'CRM\nIntegration', icon: Database, angle: 90, labelPos: 'bottom' },
+        { id: 'whatsapp', name: 'WhatsApp\nChatbot', icon: WhatsAppIcon, angle: 150, labelPos: 'left' },
+        { id: 'chatbot', name: 'Multi-Channel\nChatbot', icon: MessageSquare, angle: 210, labelPos: 'left' }
+      ];
 
 
   let NODE_CENTER_DISTANCE = 210;
 
-  if (containerWidth <= 280) {
-    NODE_CENTER_DISTANCE = 120;
-  }
-  else if (containerWidth <= 340) {
-    NODE_CENTER_DISTANCE = 145;
-  }
-  else if (containerWidth <= 420) {
-    NODE_CENTER_DISTANCE = 180;
+  if (!isLargeDevice) {
+    if (containerWidth <= 280) {
+      NODE_CENTER_DISTANCE = 90;
+    }
+    else if (containerWidth <= 340) {
+      NODE_CENTER_DISTANCE = 100;
+    }
+    else if (containerWidth <= 420) {
+      NODE_CENTER_DISTANCE = 115;
+    }
+    else if (containerWidth <= 480) {
+      NODE_CENTER_DISTANCE = 130;
+    }
+    else if (containerWidth <= 640) {
+      NODE_CENTER_DISTANCE = 145;
+    }
+    else if (containerWidth <= 768) {
+      NODE_CENTER_DISTANCE = 165;
+    }
+    else if (containerWidth <= 991) {
+      NODE_CENTER_DISTANCE = 185;
+    }
   }
 
   // Determine service node diameter based on container width (matching CSS)
   let nodeDiameter = 70;
-  if (containerWidth <= 480) {
-    nodeDiameter = 50;
-  } else if (containerWidth <= 768) {
-    nodeDiameter = 56;
-  } else if (containerWidth <= 1024) {
-    nodeDiameter = 62;
-  } else if (containerWidth <= 1280) {
-    nodeDiameter = 68;
+  if (!isLargeDevice) {
+    if (containerWidth <= 480) {
+      nodeDiameter = 50;
+    } else if (containerWidth <= 768) {
+      nodeDiameter = 56;
+    } else if (containerWidth <= 1024) {
+      nodeDiameter = 62;
+    } else if (containerWidth <= 1280) {
+      nodeDiameter = 68;
+    }
   }
 
   const SVG_ORBIT_RADIUS = NODE_CENTER_DISTANCE - (nodeDiameter / 2);
@@ -87,8 +132,8 @@ function EcosystemAnimation() {
             style={{ originX: 0, originY: 0 }}
           >
             {/* Tiny blue dots distributed around the outer ring */}
-            {[0, 72, 144, 216, 288].map((angle, idx) => {
-              const r = (angle * Math.PI) / 180;
+            {services.map((service, idx) => {
+              const r = (service.angle * Math.PI) / 180;
               const dotX = Math.cos(r) * SVG_ORBIT_RADIUS;
               const dotY = Math.sin(r) * SVG_ORBIT_RADIUS;
               return (
@@ -230,6 +275,34 @@ function EcosystemAnimation() {
           const x = Math.cos(rad) * NODE_CENTER_DISTANCE;
           const y = Math.sin(rad) * NODE_CENTER_DISTANCE;
 
+          const labelStyles = {};
+          if (!isLargeDevice) {
+            if (service.labelPos === 'top') {
+              labelStyles.top = 'auto';
+              labelStyles.bottom = 'calc(100% + 8px)';
+              labelStyles.left = '50%';
+              labelStyles.transform = 'translateX(-50%)';
+              labelStyles.textAlign = 'center';
+            } else if (service.labelPos === 'bottom') {
+              labelStyles.top = 'calc(100% + 8px)';
+              labelStyles.left = '50%';
+              labelStyles.transform = 'translateX(-50%)';
+              labelStyles.textAlign = 'center';
+            } else if (service.labelPos === 'left') {
+              labelStyles.right = 'calc(100% + 10px)';
+              labelStyles.left = 'auto';
+              labelStyles.top = '50%';
+              labelStyles.transform = 'translateY(-50%)';
+              labelStyles.textAlign = 'right';
+            } else if (service.labelPos === 'right') {
+              labelStyles.left = 'calc(100% + 10px)';
+              labelStyles.right = 'auto';
+              labelStyles.top = '50%';
+              labelStyles.transform = 'translateY(-50%)';
+              labelStyles.textAlign = 'left';
+            }
+          }
+
           return (
             <div
               key={service.id}
@@ -264,8 +337,13 @@ function EcosystemAnimation() {
                 </div>
               </motion.div>
 
-              <div className="service-label">
-                {service.name}
+              <div 
+                className="service-label"
+                style={labelStyles}
+              >
+                {service.name.split('\n').map((line, lIdx) => (
+                  <div key={lIdx}>{line}</div>
+                ))}
               </div>
             </div>
           );

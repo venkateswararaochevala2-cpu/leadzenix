@@ -9,7 +9,7 @@ function ConversationItem({ faq, index, isOpen, onToggle }) {
   const team = [
     { name: 'Venky', avatar: '/venky.jpeg' },
     { name: 'Ali', avatar: '/ali.jpeg' },
-    { name: 'Naveen', avatar: '/naveen.jpeg' }
+    { name: 'Naveen', avatar: '/Naveen.jpeg' }
   ];
 
   const member = team[index % 3];
@@ -48,7 +48,7 @@ function ConversationItem({ faq, index, isOpen, onToggle }) {
           >
             <div className={`faq-answer-content-wrapper ${isQuestionRight ? 'content-left' : 'content-right'}`}>
               {/* Avatar Column */}
-              <div 
+              <div
                 className="faq-avatar-outer"
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
