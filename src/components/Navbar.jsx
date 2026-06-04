@@ -27,13 +27,7 @@ function Navbar({ currentRoute, navigateTo, isMobileMenuOpen, setIsMobileMenuOpe
           <img
             src="/image.png"
             alt="LeadZenix Logo"
-            style={{
-              height: "140px",
-              width: "auto",
-              maxWidth: "220px",
-              objectFit: "contain",
-              display: "block",
-            }}
+            className="navbar-logo-img"
           />
         </a>
         {/* Desktop Navigation Links */}
@@ -54,8 +48,9 @@ function Navbar({ currentRoute, navigateTo, isMobileMenuOpen, setIsMobileMenuOpe
         {/* Desktop CTA */}
         <div className="desktop-cta">
           <a
-            href="#contact"
-            onClick={(e) => handleLinkClick('#contact', e)}
+            href="https://cal.com/leadzenix/free-ai-consultation"
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn btn-primary btn-sm-padding"
           >
             Book Your Free Call
@@ -88,8 +83,9 @@ function Navbar({ currentRoute, navigateTo, isMobileMenuOpen, setIsMobileMenuOpe
               </a>
             ))}
             <a
-              href="#contact"
-              onClick={(e) => handleLinkClick('#contact', e)}
+              href="https://cal.com/leadzenix/free-ai-consultation"
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn btn-primary mobile-cta"
             >
               Book Your Free Call

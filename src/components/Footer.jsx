@@ -9,12 +9,19 @@ function Footer({ navigateTo }) {
   };
 
   return (
-    <footer className="footer">
+    <footer className="footer" style={{ overflow: 'hidden', paddingTop: '2rem' }}>
+      {/* Giant faint watermark background text */}
+      <div className="footer-watermark-wrap">
+        {/* Large LZ Logo */}
+        <span className="footer-watermark-lz">LZ</span>
+        {/* Large LeadZenix text */}
+        <span className="footer-watermark-brand">LeadZenix</span>
+      </div>
+
       <div className="container">
         <div className="footer-grid">
           {/* Brand Col */}
           <div className="footer-col brand-col">
-            <img src="/image.png" alt="LeadZenix Logo" className="footer-logo" />
             <p className="footer-desc">
               LeadZenix helps businesses grow by automating customer conversations, capturing leads, and booking appointments with AI-powered voice agents, WhatsApp chatbots, and automation systems.
             </p>

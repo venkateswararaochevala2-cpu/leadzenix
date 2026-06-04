@@ -166,68 +166,6 @@ const individualSolutions = [
 ];
 
 function Home({ navigateTo }) {
-  const scrollRef = React.useRef(null);
-  const isButtonInteractingRef = React.useRef(false);
-  const pauseTimerRef = React.useRef(null);
-
-  const scrollSolutions = (direction) => {
-    if (scrollRef.current) {
-      isButtonInteractingRef.current = true;
-      if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
-
-      const { scrollLeft } = scrollRef.current;
-      const scrollAmount = 340; // width (320) + gap (20)
-      scrollRef.current.scrollTo({
-        left: direction === 'left' ? scrollLeft - scrollAmount : scrollLeft + scrollAmount,
-        behavior: 'smooth'
-      });
-
-      pauseTimerRef.current = setTimeout(() => {
-        isButtonInteractingRef.current = false;
-      }, 4000); // Resume auto-scroll after 4 seconds of inactivity
-    }
-  };
-
-  React.useEffect(() => {
-    let intervalId;
-    let isMouseOver = false;
-
-    const handleMouseEnter = () => {
-      isMouseOver = true;
-    };
-    const handleMouseLeave = () => {
-      isMouseOver = false;
-    };
-
-    const container = scrollRef.current;
-    if (container) {
-      container.addEventListener('mouseenter', handleMouseEnter);
-      container.addEventListener('mouseleave', handleMouseLeave);
-
-      // Start scroll offset in the middle of duplicate cards for seamless backward scroll
-      container.scrollLeft = container.scrollWidth / 2;
-
-      intervalId = setInterval(() => {
-        if (!isMouseOver && !isButtonInteractingRef.current) {
-          const { scrollLeft, scrollWidth } = container;
-          if (scrollLeft <= 0) {
-            container.scrollLeft = scrollWidth / 2;
-          } else {
-            container.scrollLeft -= 1; // Left-to-right item translation
-          }
-        }
-      }, 30);
-    }
-
-    return () => {
-      if (container) {
-        container.removeEventListener('mouseenter', handleMouseEnter);
-        container.removeEventListener('mouseleave', handleMouseLeave);
-      }
-      if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
-      clearInterval(intervalId);
-    };
-  }, []);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -286,7 +224,7 @@ function Home({ navigateTo }) {
               LeadZenix helps businesses grow by automating customer conversations, capturing leads, and booking appointments with AI-powered voice agents, WhatsApp chatbots, and automation systems.
             </p>
             <div className="hero-ctas">
-              <a href="#contact" onClick={(e) => { e.preventDefault(); navigateTo('#contact'); }} className="btn btn-primary">
+              <a href="https://cal.com/leadzenix/free-ai-consultation" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                 Book Your Free Call
                 <ArrowRight size={18} />
               </a>
@@ -579,7 +517,7 @@ function Home({ navigateTo }) {
 
         <div className="container">
           <div className="indiv-solutions-header-wrapper">
-            <div className="section-header text-left-header">
+            <div className="section-header text-left-header" style={{ marginBottom: '3rem' }}>
               <div className="badge-pill">
                 <Briefcase size={16} className="badge-pill-icon" />
                 <span>INDIVIDUAL SOLUTIONS</span>
@@ -588,30 +526,12 @@ function Home({ navigateTo }) {
               <p>Not everything needs a full system. Start with what hurts most. Explore our high-performance voice agents, WhatsApp chatbots, and bespoke website developments.</p>
               <div className="header-divider" />
             </div>
-
-            {/* Slider Navigation Buttons */}
-            <div className="indiv-carousel-controls">
-              <button 
-                onClick={() => scrollSolutions('left')} 
-                className="indiv-control-btn btn-prev" 
-                aria-label="Previous Solutions"
-              >
-                <ChevronLeft size={22} />
-              </button>
-              <button 
-                onClick={() => scrollSolutions('right')} 
-                className="indiv-control-btn btn-next" 
-                aria-label="Next Solutions"
-              >
-                <ChevronRight size={22} />
-              </button>
-            </div>
           </div>
         </div>
 
-        {/* Scrollable Carousel Row (Ref controlled) */}
+        {/* Scrollable Carousel Row with Smooth CSS Track */}
         <div className="indiv-carousel-wrapper">
-          <div className="indiv-carousel-inner" ref={scrollRef}>
+          <div className="indiv-carousel-track">
             {individualSolutions.map((sol, idx) => (
               <div key={`indiv-sol-1-${idx}`} className={`indiv-sol-card theme-${sol.theme}`}>
                 <div className="indiv-sol-header">
@@ -725,7 +645,7 @@ function Home({ navigateTo }) {
               </p>
               
               <div className="cta-card-actions">
-                <a href="#contact" onClick={(e) => { e.preventDefault(); navigateTo('#contact'); }} className="btn btn-primary cta-btn-primary">
+                <a href="https://cal.com/leadzenix/free-ai-consultation" target="_blank" rel="noopener noreferrer" className="btn btn-primary cta-btn-primary">
                   <Phone size={18} className="btn-left-icon" />
                   Book Your Free Call
                   <ArrowRight size={18} className="btn-right-icon" />
