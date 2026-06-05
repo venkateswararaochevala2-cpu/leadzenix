@@ -9,7 +9,7 @@ function ConversationItem({ faq, index, isOpen, onToggle }) {
   const team = [
     { name: 'Venky', avatar: '/venky.jpeg' },
     { name: 'Ali', avatar: '/ali.jpeg' },
-    { name: 'Naveen', avatar: '/Naveen.jpeg' }
+    { name: 'Naveen', avatar: '/naveen.jpeg' }
   ];
 
   const member = team[index % 3];
